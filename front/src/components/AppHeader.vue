@@ -19,6 +19,15 @@ const router = useRouter()
               Accueil
             </router-link>
           </li>
+          <li>
+            <router-link 
+              to="/articles" 
+              class="font-bold text-gray-900 hover:text-hn-orange"
+              :class="{ 'text-hn-orange': route.name === 'articles' }"
+            >
+              Articles
+            </router-link>
+          </li>
         </ul>
       </nav>
     </div>

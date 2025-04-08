@@ -1,19 +1,17 @@
-import { CodegenConfig } from "@graphql-codegen/cli";
+import type { CodegenConfig } from '@graphql-codegen/cli'
 
 export default {
-  schema: "./schema.ts",
+  schema: './src/schema.ts',
   generates: {
-    "./generated/graphql.ts": {
-      plugins: ["typescript", "typescript-resolvers"],
+    './src/types.ts': {
+      plugins: ['typescript', 'typescript-resolvers'],
       config: {
         useIndexSignature: true,
-        contextType: "../context#Context",
         mappers: {},
         scalars: {
-          DateTime: "Date",
+          DateTime: 'Date',
         },
       },
     },
   },
-} satisfies CodegenConfig;
-
+} satisfies CodegenConfig

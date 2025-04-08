@@ -1,29 +1,15 @@
 {
   "name": "back",
-  "module": "index.ts",
   "type": "module",
+  "module": "index.ts",
   "scripts": {
+    "start": "bun run index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "codegen": "graphql-codegen"
   },
-  "devDependencies": {
-    "@eslint/js": "^8.57.0",
-    "@types/bun": "latest",
-    "eslint": "^9.23.0",
-    "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-prettier": "^5.2.3",
-    "globals": "^14.0.0",
-    "prettier": "^3.5.3",
-    "@graphql-codegen/cli": "^5.0.5",
-    "@graphql-codegen/typescript": "^4.1.5",
-    "@graphql-codegen/typescript-resolvers": "^4.4.4",
-    "@types/bcrypt": "^5.0.2",
-    "@types/jsonwebtoken": "^9.0.9",
-    "@types/node": "^22.13.10",
-    "prisma": "^6.5.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.2"
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   },
   "dependencies": {
     "@apollo/datasource-rest": "^6.4.1",
@@ -34,7 +20,19 @@
     "graphql-tag": "^2.12.6",
     "jsonwebtoken": "^9.0.2"
   },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.11.0",
+    "@graphql-codegen/cli": "^5.0.5",
+    "@graphql-codegen/typescript": "^4.1.5",
+    "@graphql-codegen/typescript-resolvers": "^4.4.4",
+    "@types/bcrypt": "^5.0.2",
+    "@types/bun": "latest",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^22.13.10",
+    "eslint": "^9.23.0",
+    "globals": "^14.0.0",
+    "prisma": "^6.5.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
   }
 }

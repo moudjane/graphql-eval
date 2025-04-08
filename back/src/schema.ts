@@ -28,8 +28,8 @@ export const typeDefs = gql`
     id: ID!
     username: String!
     email: String!
-    posts: [Post!]!
-    comments: [Comment!]!
+    posts: [String!]!
+    comments: [String!]!
     createdAt: String!
   }
 
@@ -38,8 +38,8 @@ export const typeDefs = gql`
     title: String!
     url: String
     content: String
-    author: User!
-    comments: [Comment!]!
+    authorId: String!
+    comments: [String!]
     likes: Int!
     createdAt: String!
   }
@@ -47,8 +47,8 @@ export const typeDefs = gql`
   type Comment {
     id: ID!
     content: String!
-    author: User!
-    post: Post!
+    authorId: String!
+    postId: String!
     createdAt: String!
   }
 

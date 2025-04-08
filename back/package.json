@@ -3,7 +3,7 @@
   "type": "module",
   "module": "index.ts",
   "scripts": {
-    "start": "bun run index.ts",
+    "start": "bun run src/index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "codegen": "graphql-codegen"

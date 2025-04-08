@@ -18,7 +18,7 @@ model User {
   password  String
   posts     Post[]
   comments  Comment[]
-  createdAt DateTime  @default(now())
+  createdAt String
 }
 
 model Post {
@@ -30,15 +30,15 @@ model Post {
   authorId  String
   comments  Comment[]
   likes     Int       @default(0)
-  createdAt DateTime  @default(now())
+  createdAt String
 }
 
 model Comment {
-  id        String   @id @default(uuid())
+  id        String @id @default(uuid())
   content   String
-  author    User     @relation(fields: [authorId], references: [id])
+  author    User   @relation(fields: [authorId], references: [id])
   authorId  String
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post   @relation(fields: [postId], references: [id])
   postId    String
-  createdAt DateTime @default(now())
+  createdAt String
 }

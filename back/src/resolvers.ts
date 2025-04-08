@@ -19,7 +19,22 @@ export const resolvers: Resolvers = {
     me: async (_, __, { user }: Context) => {
       if (!user)
         return null
-      return prisma.user.findUnique({ where: { id: user.id } })
+
+      const me = await prisma.user.findUnique({ where: { id: user.id } })
+      const comments = await prisma.comment.findMany({ where: { authorId: user.id } })
+      const commentsIds = comments.map(comment => comment.id)
+
+      const posts = await prisma.post.findMany({ where: { authorId: user.id } })
+      const postsIds = posts.map(post => post.id)
+
+      if (!me)
+        throw new GraphQLError('User dont exists')
+
+      return {
+        ...me,
+        comments: commentsIds,
+        posts: postsIds,
+      }
     },
 
     getPost: async (_, { id }) => {
@@ -41,13 +56,28 @@ export const resolvers: Resolvers = {
       return prisma.post.findMany({
         where,
         orderBy,
-        skip: pagination?.skip,
-        take: pagination?.take,
+        skip: pagination?.skip ?? 0,
+        take: pagination?.take ?? 10,
       })
     },
 
     getUser: async (_, { username }) => {
-      return prisma.user.findUnique({ where: { username } })
+      const user = await prisma.user.findUnique({ where: { username } })
+
+      if (!user)
+        throw new GraphQLError('User dont exists')
+
+      const comments = await prisma.comment.findMany({ where: { authorId: user.id } })
+      const commentsIds = comments.map(comment => comment.id)
+
+      const posts = await prisma.post.findMany({ where: { authorId: user.id } })
+      const postsIds = posts.map(post => post.id)
+
+      return {
+        ...user,
+        comments: commentsIds,
+        posts: postsIds,
+      }
     },
   },
 
@@ -70,12 +100,13 @@ export const resolvers: Resolvers = {
           email: input.email,
           username: input.email.split('@')[0],
           password: hashedPassword,
+          createdAt: new Date().toISOString(),
         },
       })
 
       const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!)
 
-      return { token, user }
+      return { token, user: { ...user, comments: [], posts: [] } }
     },
 
     login: async (_, { input }) => {
@@ -95,7 +126,13 @@ export const resolvers: Resolvers = {
 
       const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!)
 
-      return { token, user }
+      const comments = await prisma.comment.findMany({ where: { authorId: user.id } })
+      const commentsIds = comments.map(comment => comment.id)
+
+      const posts = await prisma.post.findMany({ where: { authorId: user.id } })
+      const postsIds = posts.map(post => post.id)
+
+      return { token, user: { ...user, comments: commentsIds, posts: postsIds } }
     },
 
     logout: () => {
@@ -110,6 +147,7 @@ export const resolvers: Resolvers = {
         data: {
           ...input,
           authorId: user.id,
+          createdAt: new Date().toISOString(),
         },
       })
     },
@@ -127,7 +165,11 @@ export const resolvers: Resolvers = {
 
       return await prisma.post.update({
         where: { id },
-        data: input,
+        data: {
+          title: input.title!,
+          content: input.content!,
+          url: input.url!,
+        },
       })
     },
 
@@ -155,6 +197,7 @@ export const resolvers: Resolvers = {
           content,
           authorId: user.id,
           postId,
+          createdAt: new Date().toISOString(),
         },
       })
     },

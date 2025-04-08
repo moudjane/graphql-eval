@@ -30,11 +30,11 @@ export type AuthPayload = {
 
 export type Comment = {
   __typename?: 'Comment'
-  author: User
+  authorId: Scalars['String']['output']
   content: Scalars['String']['output']
   createdAt: Scalars['String']['output']
   id: Scalars['ID']['output']
-  post: Post
+  postId: Scalars['String']['output']
 }
 
 export type CreatePostInput = {
@@ -107,8 +107,8 @@ export type PaginationInput = {
 
 export type Post = {
   __typename?: 'Post'
-  author: User
-  comments: Array<Comment>
+  authorId: Scalars['String']['output']
+  comments?: Maybe<Array<Scalars['String']['output']>>
   content?: Maybe<Scalars['String']['output']>
   createdAt: Scalars['String']['output']
   id: Scalars['ID']['output']
@@ -161,11 +161,11 @@ export type UpdatePostInput = {
 
 export type User = {
   __typename?: 'User'
-  comments: Array<Comment>
+  comments: Array<Scalars['String']['output']>
   createdAt: Scalars['String']['output']
   email: Scalars['String']['output']
   id: Scalars['ID']['output']
-  posts: Array<Post>
+  posts: Array<Scalars['String']['output']>
   username: Scalars['String']['output']
 }
 
@@ -285,11 +285,11 @@ export type AuthPayloadResolvers<ContextType = any, ParentType extends Resolvers
 }>
 
 export type CommentResolvers<ContextType = any, ParentType extends ResolversParentTypes['Comment'] = ResolversParentTypes['Comment']> = ResolversObject<{
-  author?: Resolver<ResolversTypes['User'], ParentType, ContextType>
+  authorId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
-  post?: Resolver<ResolversTypes['Post'], ParentType, ContextType>
+  postId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }>
 
@@ -307,8 +307,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 }>
 
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = ResolversObject<{
-  author?: Resolver<ResolversTypes['User'], ParentType, ContextType>
-  comments?: Resolver<Array<ResolversTypes['Comment']>, ParentType, ContextType>
+  authorId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  comments?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
   content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
@@ -326,11 +326,11 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 }>
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
-  comments?: Resolver<Array<ResolversTypes['Comment']>, ParentType, ContextType>
+  comments?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
-  posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>
+  posts?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }>

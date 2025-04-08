@@ -1,55 +1,70 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import PostDetail from '../components/PostDetail.vue'
 import { useRoute } from 'vue-router'
-import { useQuery } from '@apollo/client'
 import { postService } from '../services/postService'
-import type { Post } from '@/types/post'
 import { graphql } from '../gql/gql'
+import { useMutation, useQuery } from '@vue/apollo-composable'
+import type { GetPostQuery, GetPostQueryVariables } from '@/gql/graphql'
 
 const route = useRoute()
+const postId = route.params.id as string
 
-const post = ref<Post | null>(null)
-
-const meRequest = graphql(`
-  query Me {
-    me {
+const GET_POST = graphql(`
+  query GetPost($id: ID!) {
+    getPost(id: $id) {
+      id
+      title
+      createdAt
+      authorId
+      content
+      comments
+      likes
+    }
+  }
+`)
+const LIKE_POST = graphql(`
+  mutation LikePost($postId: ID!) {
+    likePost(postId: $postId)
+  }
+`)
+const ADD_COMMENT = graphql(`
+  mutation AddComment($postId: ID!, $content: String!) {
+    addComment(postId: $postId, content: $content) {
       id
     }
   }
 `)
 
+const { result, loading, error, refetch } = useQuery<GetPostQuery, GetPostQueryVariables>(
+  GET_POST,
+  { id: postId }
+)
 
-const { data: meData } = useQuery(meRequest, {
-  fetchPolicy: 'cache-and-network',
+const { mutate: likePost } = useMutation(LIKE_POST)
+const { mutate: addCommentMutation } = useMutation(ADD_COMMENT)
+
+const post = ref<GetPostQuery['getPost'] | null>(null)
+
+watch(result, (newResult) => {
+  post.value = newResult?.getPost ?? null
 })
-const loadPost = async () => {
-  const postData = await postService.getPostById(route.params.id as string)
-  if (postData) {
-    post.value = postData
-  }
-}
 
 const handleUpvote = async (postId: string) => {
-  await postService.upvotePost(postId)
-  await loadPost()
-}
-
-const handleCommentUpvote = async (commentId: string) => {
-  if (post.value) {
-    await postService.upvoteComment(post.value.id, commentId)
-    await loadPost()
-  }
+  await likePost({ postId })
+  await refetch()
 }
 
 const handleAddComment = async (content: string) => {
-  if (post.value) {
-    await postService.addComment(post.value.id, content)
-    await loadPost()
-  }
+  if (!post.value) return
+  await addCommentMutation({
+    postId: post.value.id,
+    content
+  })
+  await refetch()
 }
 
-onMounted(loadPost)
+onMounted(refetch)
 </script>
 
 <template>
@@ -59,7 +74,6 @@ onMounted(loadPost)
         v-if="post"
         :post="post"
         @upvote="handleUpvote"
-        @upvote-comment="handleCommentUpvote"
         @add-comment="handleAddComment"
       />
     </div>

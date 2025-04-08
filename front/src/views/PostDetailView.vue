@@ -1,13 +1,28 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import type { Post } from '../types/post'
 import PostDetail from '../components/PostDetail.vue'
 import { useRoute } from 'vue-router'
+import { useQuery } from '@apollo/client'
 import { postService } from '../services/postService'
+import type { Post } from '@/types/post'
+import { graphql } from '../gql/gql'
 
 const route = useRoute()
+
 const post = ref<Post | null>(null)
 
+const meRequest = graphql(`
+  query Me {
+    me {
+      id
+    }
+  }
+`)
+
+
+const { data: meData } = useQuery(meRequest, {
+  fetchPolicy: 'cache-and-network',
+})
 const loadPost = async () => {
   const postData = await postService.getPostById(route.params.id as string)
   if (postData) {

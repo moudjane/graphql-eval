@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { PostDetailProps } from '../types/post'
-import type { Comment } from '../types/comment'
 import CommentCard from './CommentCard.vue'
 import CommentForm from './CommentForm.vue'
 

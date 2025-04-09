@@ -30,11 +30,12 @@ export type AuthPayload = {
 
 export type Comment = {
   __typename?: 'Comment'
-  authorId: Scalars['String']['output']
-  content: Scalars['String']['output']
-  createdAt: Scalars['String']['output']
-  id: Scalars['ID']['output']
-  postId: Scalars['String']['output']
+  authorId?: Maybe<Scalars['String']['output']>
+  authorName?: Maybe<Scalars['String']['output']>
+  content?: Maybe<Scalars['String']['output']>
+  createdAt?: Maybe<Scalars['String']['output']>
+  id?: Maybe<Scalars['ID']['output']>
+  postId?: Maybe<Scalars['String']['output']>
 }
 
 export type CreatePostInput = {
@@ -107,13 +108,14 @@ export type PaginationInput = {
 
 export type Post = {
   __typename?: 'Post'
-  authorId: Scalars['String']['output']
+  authorId?: Maybe<Scalars['String']['output']>
+  authorName?: Maybe<Scalars['String']['output']>
   comments?: Maybe<Array<Scalars['String']['output']>>
   content?: Maybe<Scalars['String']['output']>
-  createdAt: Scalars['String']['output']
-  id: Scalars['ID']['output']
-  likes: Scalars['Int']['output']
-  title: Scalars['String']['output']
+  createdAt?: Maybe<Scalars['String']['output']>
+  id?: Maybe<Scalars['ID']['output']>
+  likes?: Maybe<Scalars['Int']['output']>
+  title?: Maybe<Scalars['String']['output']>
   url?: Maybe<Scalars['String']['output']>
 }
 
@@ -285,11 +287,12 @@ export type AuthPayloadResolvers<ContextType = any, ParentType extends Resolvers
 }>
 
 export type CommentResolvers<ContextType = any, ParentType extends ResolversParentTypes['Comment'] = ResolversParentTypes['Comment']> = ResolversObject<{
-  authorId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
-  postId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  authorId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  authorName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
+  postId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }>
 
@@ -307,13 +310,14 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 }>
 
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = ResolversObject<{
-  authorId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  authorId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  authorName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   comments?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
   content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
-  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
-  likes?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
+  likes?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }>

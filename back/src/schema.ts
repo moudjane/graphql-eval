@@ -34,22 +34,24 @@ export const typeDefs = gql`
   }
 
   type Post {
-    id: ID!
-    title: String!
+    id: ID
+    title: String
     url: String
     content: String
-    authorId: String!
+    authorId: String
+    authorName: String
     comments: [String!]
-    likes: Int!
-    createdAt: String!
+    likes: Int
+    createdAt: String
   }
 
   type Comment {
-    id: ID!
-    content: String!
-    authorId: String!
-    postId: String!
-    createdAt: String!
+    id: ID
+    content: String
+    authorId: String
+    authorName: String
+    postId: String
+    createdAt: String
   }
 
   type AuthPayload {

@@ -1,4 +1,4 @@
-import { gql } from "graphql-tag";
+import { gql } from 'graphql-tag'
 
 // Define your GraphQL schema using SDL
 export const typeDefs = gql`
@@ -11,4 +11,4 @@ export const typeDefs = gql`
   type Mutation {
     echo(message: String!): String!
   }
-`;
+`

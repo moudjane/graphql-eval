@@ -38,7 +38,14 @@ export const resolvers: Resolvers = {
     },
 
     getPost: async (_, { id }) => {
-      return prisma.post.findUnique({ where: { id } })
+      const post = await prisma.post.findUnique({ where: { id } })
+      let authorName = { username: 'unknown' }
+      if (post?.authorId)
+        authorName = await prisma.user.findUnique({ where: { id: post.authorId } }) || { username: 'unknown' }
+      return {
+        ...post,
+        authorName: authorName.username,
+      }
     },
 
     getPosts: async (_, { filter, pagination }) => {

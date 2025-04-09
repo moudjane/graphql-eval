@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { PostCardProps } from '../types/post'
 import { useRouter } from 'vue-router'
 import type { GetPostQuery } from '@/gql/graphql'
 
 const router = useRouter()
-const post = defineProps<GetPostQuery['getPost']>()
+const props = defineProps<{
+  post: NonNullable<GetPostQuery['getPost']>
+}>()
 
 const emits = defineEmits<{
   (e: 'upvote', postId: string): void
@@ -13,7 +14,7 @@ const emits = defineEmits<{
 }>()
 
 const formattedDate = computed(() => {
-  return new Date(post.createdAt).toLocaleDateString('fr-FR', {
+  return new Date(props.post.createdAt).toLocaleDateString('fr-FR', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
@@ -21,7 +22,7 @@ const formattedDate = computed(() => {
 })
 
 const handleTitleClick = () => {
-  router.push({ name: 'post-detail', params: { id: post.id } })
+  router.push({ name: 'post-detail', params: { id: props.post.id } })
 }
 </script>
 

@@ -60,12 +60,20 @@ export const resolvers: Resolvers = {
           }
         : undefined
 
-      return prisma.post.findMany({
+      const prismaPosts = await prisma.post.findMany({
         where,
         orderBy,
         skip: pagination?.skip ?? 0,
         take: pagination?.take ?? 10,
       })
+      const posts = prismaPosts.map(async (post) => {
+        const authorName = await prisma.user.findUnique({ where: { id: post.authorId } })
+        return {
+          ...post,
+          authorName: authorName?.username || 'unknown',
+        }
+      })
+      return posts
     },
 
     getUser: async (_, { username }) => {

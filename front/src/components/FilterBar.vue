@@ -1,12 +1,12 @@
 <script setup lang="ts">
 interface FilterBarProps {
-  activeFilter: 'date' | 'popularity'
+  activeFilter: 'CREATED_AT' | 'LIKES'
 }
 
 const props = defineProps<FilterBarProps>()
 
 const emits = defineEmits<{
-  (e: 'change', value: 'date' | 'popularity'): void
+  (e: 'change', value: 'CREATED_AT' | 'LIKES'): void
 }>()
 </script>
 
@@ -16,10 +16,10 @@ const emits = defineEmits<{
       <span class="font-bold text-gray-900">Trier par :</span>
       <div class="flex gap-2">
         <button 
-          @click="emits('change', 'date')"
+          @click="emits('change', 'CREATED_AT')"
           :class="[
             'border-2 border-gray-900 px-4 py-2 font-bold transition-colors',
-            activeFilter === 'date' 
+            activeFilter === 'CREATED_AT' 
               ? 'bg-hn-orange text-white' 
               : 'bg-white text-gray-900 hover:bg-gray-100'
           ]"
@@ -27,10 +27,10 @@ const emits = defineEmits<{
           Par date
         </button>
         <button 
-          @click="emits('change', 'popularity')"
+          @click="emits('change', 'LIKES')"
           :class="[
             'border-2 border-gray-900 px-4 py-2 font-bold transition-colors',
-            activeFilter === 'popularity' 
+            activeFilter === 'LIKES' 
               ? 'bg-hn-orange text-white' 
               : 'bg-white text-gray-900 hover:bg-gray-100'
           ]"

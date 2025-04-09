@@ -2,9 +2,10 @@
 import { computed } from 'vue'
 import type { PostCardProps } from '../types/post'
 import { useRouter } from 'vue-router'
+import type { GetPostQuery } from '@/gql/graphql'
 
 const router = useRouter()
-const props = defineProps<PostCardProps>()
+const post = defineProps<GetPostQuery['getPost']>()
 
 const emits = defineEmits<{
   (e: 'upvote', postId: string): void
@@ -12,7 +13,7 @@ const emits = defineEmits<{
 }>()
 
 const formattedDate = computed(() => {
-  return new Date(props.post.createdAt).toLocaleDateString('fr-FR', {
+  return new Date(post.createdAt).toLocaleDateString('fr-FR', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
@@ -20,7 +21,7 @@ const formattedDate = computed(() => {
 })
 
 const handleTitleClick = () => {
-  router.push({ name: 'post-detail', params: { id: props.post.id } })
+  router.push({ name: 'post-detail', params: { id: post.id } })
 }
 </script>
 
@@ -34,13 +35,13 @@ const handleTitleClick = () => {
         {{ post.title }}
       </h2>
       <div class="text-sm text-gray-600">
-        posté par {{ post.author.username }} le {{ formattedDate }}
+        posté par {{ post.authorId }} le {{ formattedDate }}
       </div>
     </header>
 
     <div class="flex items-center justify-between border-b-2 border-gray-900 bg-gray-50 p-4">
       <div class="flex items-center gap-4">
-        <span class="text-lg font-bold">{{ post.score }}</span>
+        <span class="text-lg font-bold">{{ post.likes }}</span>
         <button 
           @click="emits('upvote', post.id)"
           class="border-2 border-gray-900 bg-hn-orange px-4 py-2 font-bold text-white hover:bg-orange-500"

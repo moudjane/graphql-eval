@@ -2,7 +2,6 @@
 import { ref, onMounted, watch } from 'vue'
 import PostDetail from '../components/PostDetail.vue'
 import { useRoute } from 'vue-router'
-import { postService } from '../services/postService'
 import { graphql } from '../gql/gql'
 import { useMutation, useQuery } from '@vue/apollo-composable'
 import type { GetPostQuery, GetPostQueryVariables } from '@/gql/graphql'
@@ -41,7 +40,11 @@ const { result, loading, error, refetch } = useQuery<GetPostQuery, GetPostQueryV
   { id: postId }
 )
 
-const { mutate: likePost } = useMutation(LIKE_POST)
+const { mutate: likePost } = useMutation(LIKE_POST, {
+  variables: {
+    postId
+  }
+})
 const { mutate: addCommentMutation } = useMutation(ADD_COMMENT)
 
 const post = ref<GetPostQuery['getPost'] | null>(null)

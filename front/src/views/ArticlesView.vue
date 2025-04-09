@@ -1,35 +1,79 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import type { Post } from '../types/post'
+import { ref, watch } from 'vue'
 import type { FilterType } from '../types/filter'
 import PostCard from '../components/PostCard.vue'
 import FilterBar from '../components/FilterBar.vue'
 import { useRouter } from 'vue-router'
-import { postService } from '../services/postService'
+import { graphql } from '../gql/gql'
+import { useMutation, useQuery } from '@vue/apollo-composable'
+import type { GetPostsQuery, GetPostsQueryVariables, OrderDirection, PostOrderField } from '@/gql/graphql'
 
 const router = useRouter()
-const activeFilter = ref<FilterType>('date')
-const posts = ref<Post[]>([])
+const activeFilter = ref<FilterType>('CREATED_AT')
 
-const loadPosts = async () => {
-  posts.value = await postService.getAllPosts(activeFilter.value)
-}
+const ME = graphql(`
+  query Me {
+    me {
+      id
+      username
+    }
+  }
+`)
+const GET_POSTS = graphql(`
+  query GetPosts($filter: PostFilterInput) {
+    getPosts(filter: $filter) {
+      id
+      title
+      createdAt
+      authorId
+      content
+      comments
+      likes
+    }
+  }
+`)
+const LIKE_POST = graphql(`
+  mutation LikePost($postId: ID!) {
+    likePost(postId: $postId)
+  }
+`)
+
+const { result, refetch } = useQuery<GetPostsQuery, GetPostsQueryVariables>(
+  GET_POSTS,
+  {
+    filter: {
+      orderBy: {
+        field: activeFilter.value as PostOrderField,
+        direction: 'DESC' as OrderDirection
+      }
+    }
+  }
+)
+
+const { mutate: likePost } = useMutation(LIKE_POST, {
+  variables: {
+    postId: ''
+  }
+})
+
+const posts = ref<GetPostsQuery['getPosts']>([])
+watch(result, (newResult) => {
+  posts.value = newResult?.getPosts ?? []
+})
 
 const handleFilterChange = async (filter: FilterType) => {
   activeFilter.value = filter
-  await loadPosts()
+  await refetch()
 }
 
 const handleUpvote = async (postId: string) => {
-  await postService.upvotePost(postId)
-  await loadPosts()
+  await likePost({ postId })
+  await refetch()
 }
 
 const handleViewDetails = (postId: string) => {
   router.push({ name: 'post-detail', params: { id: postId } })
 }
-
-onMounted(loadPosts)
 </script>
 
 <template>

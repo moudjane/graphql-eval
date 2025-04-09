@@ -14,13 +14,17 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
-    "\n  query GetPost($id: ID!) {\n    getPost(id: $id) {\n      id\n      title\n      createdAt\n      authorId\n      content\n      comments\n      likes\n    }\n  }\n": typeof types.GetPostDocument,
+    "\n  query Me {\n    me {\n      id\n      username\n    }\n  }\n": typeof types.MeDocument,
+    "\n  query GetPosts($filter: PostFilterInput) {\n    getPosts(filter: $filter) {\n      id\n      title\n      createdAt\n      authorId\n      content\n      comments\n      likes\n    }\n  }\n": typeof types.GetPostsDocument,
     "\n  mutation LikePost($postId: ID!) {\n    likePost(postId: $postId)\n  }\n": typeof types.LikePostDocument,
+    "\n  query GetPost($id: ID!) {\n    getPost(id: $id) {\n      id\n      title\n      createdAt\n      authorId\n      content\n      comments\n      likes\n    }\n  }\n": typeof types.GetPostDocument,
     "\n  mutation AddComment($postId: ID!, $content: String!) {\n    addComment(postId: $postId, content: $content) {\n      id\n    }\n  }\n": typeof types.AddCommentDocument,
 };
 const documents: Documents = {
-    "\n  query GetPost($id: ID!) {\n    getPost(id: $id) {\n      id\n      title\n      createdAt\n      authorId\n      content\n      comments\n      likes\n    }\n  }\n": types.GetPostDocument,
+    "\n  query Me {\n    me {\n      id\n      username\n    }\n  }\n": types.MeDocument,
+    "\n  query GetPosts($filter: PostFilterInput) {\n    getPosts(filter: $filter) {\n      id\n      title\n      createdAt\n      authorId\n      content\n      comments\n      likes\n    }\n  }\n": types.GetPostsDocument,
     "\n  mutation LikePost($postId: ID!) {\n    likePost(postId: $postId)\n  }\n": types.LikePostDocument,
+    "\n  query GetPost($id: ID!) {\n    getPost(id: $id) {\n      id\n      title\n      createdAt\n      authorId\n      content\n      comments\n      likes\n    }\n  }\n": types.GetPostDocument,
     "\n  mutation AddComment($postId: ID!, $content: String!) {\n    addComment(postId: $postId, content: $content) {\n      id\n    }\n  }\n": types.AddCommentDocument,
 };
 
@@ -41,11 +45,19 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetPost($id: ID!) {\n    getPost(id: $id) {\n      id\n      title\n      createdAt\n      authorId\n      content\n      comments\n      likes\n    }\n  }\n"): (typeof documents)["\n  query GetPost($id: ID!) {\n    getPost(id: $id) {\n      id\n      title\n      createdAt\n      authorId\n      content\n      comments\n      likes\n    }\n  }\n"];
+export function graphql(source: "\n  query Me {\n    me {\n      id\n      username\n    }\n  }\n"): (typeof documents)["\n  query Me {\n    me {\n      id\n      username\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetPosts($filter: PostFilterInput) {\n    getPosts(filter: $filter) {\n      id\n      title\n      createdAt\n      authorId\n      content\n      comments\n      likes\n    }\n  }\n"): (typeof documents)["\n  query GetPosts($filter: PostFilterInput) {\n    getPosts(filter: $filter) {\n      id\n      title\n      createdAt\n      authorId\n      content\n      comments\n      likes\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation LikePost($postId: ID!) {\n    likePost(postId: $postId)\n  }\n"): (typeof documents)["\n  mutation LikePost($postId: ID!) {\n    likePost(postId: $postId)\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetPost($id: ID!) {\n    getPost(id: $id) {\n      id\n      title\n      createdAt\n      authorId\n      content\n      comments\n      likes\n    }\n  }\n"): (typeof documents)["\n  query GetPost($id: ID!) {\n    getPost(id: $id) {\n      id\n      title\n      createdAt\n      authorId\n      content\n      comments\n      likes\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

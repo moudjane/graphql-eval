@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref, watchEffect } from 'vue'
-import type { FilterType } from '../types/filter'
 import PostCard from '../components/PostCard.vue'
 import FilterBar from '../components/FilterBar.vue'
 import { useRouter } from 'vue-router'
 import { graphql } from '../gql/gql'
 import { useMutation, useQuery } from '@vue/apollo-composable'
 import type { GetPostsQuery, GetPostsQueryVariables, OrderDirection, PostOrderField } from '@/gql/graphql'
+
+type FilterType = 'CREATED_AT' | 'LIKES'
 
 const router = useRouter()
 const activeFilter = ref<FilterType>('CREATED_AT')

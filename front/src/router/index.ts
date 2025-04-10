@@ -24,6 +24,11 @@ const routes: RouteRecordRaw[] = [
     props: true
   },
   {
+    path: '/my-posts',
+    name: 'my-posts',
+    component: () => import('../views/MyPostsView.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('../views/LoginView.vue')

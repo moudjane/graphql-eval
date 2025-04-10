@@ -39,6 +39,15 @@ const handleLogout = () => {
               Nouvel article
             </router-link>
           </li>
+          <li v-if="authStore.user">
+            <router-link 
+              to="/my-posts" 
+              class="font-bold text-gray-900 hover:text-hn-orange"
+              :class="{ 'text-hn-orange': route.name === 'my-posts' }"
+            >
+              Mes Articles
+            </router-link>
+          </li>
         </ul>
       </nav>
 

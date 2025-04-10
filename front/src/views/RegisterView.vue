@@ -3,7 +3,6 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMutation } from '@vue/apollo-composable'
 import { graphql } from '../gql/gql'
-import type { RegisterMutation, RegisterMutationVariables, AuthPayload } from '@/gql/graphql'
 import { useAuthStore } from '@/stores/authStore'
 
 const router = useRouter()
@@ -37,7 +36,7 @@ const REGISTER = graphql(`
   }
 `)
 
-const { mutate: registerMutate } = useMutation<RegisterMutation, RegisterMutationVariables>(REGISTER)
+const { mutate: registerMutate } = useMutation(REGISTER)
 
 const handleSubmit = async () => {
   if (!isValid.value) {

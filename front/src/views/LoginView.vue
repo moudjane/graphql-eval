@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMutation } from '@vue/apollo-composable'
 import { graphql } from '../gql/gql'
-import type { LoginMutation, LoginMutationVariables } from '@/gql/graphql'
 import { useAuthStore } from '@/stores/authStore'
 
 const router = useRouter()
@@ -29,7 +28,7 @@ const LOGIN = graphql(`
   }
 `)
 
-const { mutate: loginMutate } = useMutation<LoginMutation, LoginMutationVariables>(LOGIN)
+const { mutate: loginMutate } = useMutation(LOGIN)
 
 const handleSubmit = async () => {
   try {

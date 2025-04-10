@@ -43,7 +43,7 @@ const editForm = ref({ title: '', content: '' })
 const user = JSON.parse(localStorage.getItem('user') || '{}')
 
 const { result, refetch } = useQuery(GET_USER_POSTS,
-  { authorId: user.id }
+  { authorId: user.username }
 )
 
 onMounted(() => {
@@ -52,6 +52,8 @@ onMounted(() => {
   }
 })
 watchEffect(() => {
+  console.log('result', result.value)
+  console.log('user', user.id)
   if (result.value?.getPosts) {
     posts.value = result.value.getPosts
   }

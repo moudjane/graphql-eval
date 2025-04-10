@@ -34,12 +34,15 @@ export const Query: QueryResolvers = {
 
   getPost: async (_, { id }) => {
     const post = await prisma.post.findUnique({ where: { id } })
+    const comments = await prisma.comment.findMany({ where: { postId: id } })
+
     let authorName = { username: 'unknown' }
     if (post?.authorId)
       authorName = await prisma.user.findUnique({ where: { id: post.authorId } }) || { username: 'unknown' }
     return {
       ...post,
       authorName: authorName.username,
+      comments,
     }
   },
 
@@ -63,12 +66,14 @@ export const Query: QueryResolvers = {
     })
     const posts = prismaPosts.map(async (post) => {
       const authorName = await prisma.user.findUnique({ where: { id: post.authorId } })
+      const comments = await prisma.comment.findMany({ where: { postId: post.id } })
       return {
         ...post,
         authorName: authorName?.username || 'unknown',
+        comments,
       }
     })
-    return posts
+    return Promise.all(posts)
   },
 
   getUser: async (_, { username }) => {

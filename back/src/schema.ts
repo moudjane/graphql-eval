@@ -40,7 +40,7 @@ export const typeDefs = gql`
     content: String
     authorId: String
     authorName: String
-    comments: [String!]
+    comments: [Comment!]
     likes: Int
     createdAt: String
   }

@@ -1,14 +1,23 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client/core'
+import { setContext } from '@apollo/client/link/context'
+import { DefaultApolloClient } from '@vue/apollo-composable'
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
 })
 
-const cache = new InMemoryCache()
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('authToken')
 
-const apolloClient = new ApolloClient({
-  link: httpLink,
-  cache,
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  }
 })
 
-export default apolloClient
+export const apolloClient = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+})

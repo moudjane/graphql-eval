@@ -15,7 +15,7 @@ const emits = defineEmits<{
 }>()
 
 const formattedDate = computed(() => {
-  return new Date(props.post.createdAt).toLocaleDateString('fr-FR', {
+  return new Date(props.post.createdAt || '').toLocaleDateString('fr-FR', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
@@ -29,7 +29,7 @@ const formattedDate = computed(() => {
       <header class="border-b-2 border-gray-900 p-6">
         <h1 class="mb-4 text-2xl font-bold">{{ post.title }}</h1>
         <div class="flex items-center justify-between text-sm text-gray-600">
-          <span>par {{ post?.authorId }}</span> // TODO add author name
+          <span>par {{ post?.authorName }}</span>
           <time>{{ formattedDate }}</time>
         </div>
       </header>
@@ -42,7 +42,7 @@ const formattedDate = computed(() => {
         <div class="flex items-center gap-4">
           <span class="text-lg font-bold">{{ post.likes }}</span>
           <button 
-            @click="emits('upvote', post.id)"
+            @click="post.id ? emits('upvote', post.id) : console.error('No post ID given')"
             class="border-2 border-gray-900 bg-hn-orange px-4 py-2 font-bold text-white hover:bg-orange-500"
           >
             Upvote

@@ -1,27 +1,41 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { postService } from '../services/postService'
+import { graphql } from '@/gql/gql'
+import { useMutation } from '@vue/apollo-composable'
 
 const router = useRouter()
-const error = ref('')
+
 const form = ref({
   title: '',
   content: ''
 })
+const error = ref<string | null>(null)
+
+const CREATE_POST = graphql(`
+  mutation CreatePost($input: CreatePostInput!) {
+    createPost(input: $input) {
+      id
+      title
+    }
+  }
+`)
+
+const { mutate: createPost, onDone, onError } = useMutation(CREATE_POST)
 
 const handleSubmit = async () => {
-  if (!form.value.title.trim() || !form.value.content.trim()) {
-    error.value = 'Le titre et le contenu sont requis'
-    return
-  }
-
+  error.value = null
   try {
-    error.value = ''
-    const post = await postService.createPost(form.value.title, form.value.content)
-    router.push({ name: 'post-detail', params: { id: post.id } })
-  } catch (e) {
-    error.value = e instanceof Error ? e.message : 'Une erreur est survenue'
+    await createPost({
+      input: {
+        title: form.value.title,
+        content: form.value.content
+      }
+    })
+    router.push({ name: 'articles' })
+  } catch (err) {
+    error.value = 'Erreur lors de la création de l’article.'
+    console.error(err)
   }
 }
 </script>

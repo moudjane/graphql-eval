@@ -119,7 +119,7 @@ export const resolvers: Resolvers = {
         },
       })
 
-      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!)
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!)
 
       return { token, user: { ...user, comments: [], posts: [] } }
     },
@@ -139,7 +139,7 @@ export const resolvers: Resolvers = {
         throw new GraphQLError('Invalid credentials')
       }
 
-      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!)
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!)
 
       const comments = await prisma.comment.findMany({ where: { authorId: user.id } })
       const commentsIds = comments.map(comment => comment.id)
@@ -207,14 +207,16 @@ export const resolvers: Resolvers = {
       if (!user)
         throw new GraphQLError('Not authenticated')
 
-      return prisma.comment.create({
+      const comment = await prisma.comment.create({
         data: {
           content,
-          authorId: user.id,
-          postId,
+          author: { connect: { id: user.id } },
+          post: { connect: { id: postId } },
           createdAt: new Date().toISOString(),
         },
       })
+
+      return comment
     },
 
     deleteComment: async (_, { id }, { user }: Context) => {

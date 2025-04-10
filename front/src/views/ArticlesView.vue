@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import type { FilterType } from '../types/filter'
+import { onMounted, ref, watchEffect } from 'vue'
 import PostCard from '../components/PostCard.vue'
 import FilterBar from '../components/FilterBar.vue'
 import { useRouter } from 'vue-router'
 import { graphql } from '../gql/gql'
 import { useMutation, useQuery } from '@vue/apollo-composable'
 import type { GetPostsQuery, GetPostsQueryVariables, OrderDirection, PostOrderField } from '@/gql/graphql'
+
+type FilterType = 'CREATED_AT' | 'LIKES'
 
 const router = useRouter()
 const activeFilter = ref<FilterType>('CREATED_AT')
@@ -58,8 +59,10 @@ const { mutate: likePost } = useMutation(LIKE_POST, {
 })
 
 const posts = ref<GetPostsQuery['getPosts']>([])
-watch(result, (newResult) => {
-  posts.value = newResult?.getPosts ?? []
+watchEffect(() => {
+  if (result.value) {
+    posts.value = result.value.getPosts ?? []
+  }
 })
 
 const handleFilterChange = async (filter: FilterType) => {
@@ -75,6 +78,8 @@ const handleUpvote = async (postId: string) => {
 const handleViewDetails = (postId: string) => {
   router.push({ name: 'post-detail', params: { id: postId } })
 }
+
+onMounted(refetch)
 </script>
 
 <template>

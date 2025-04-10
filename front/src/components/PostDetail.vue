@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watchEffect } from 'vue'
 import CommentCard from './CommentCard.vue'
 import CommentForm from './CommentForm.vue'
 import type { GetPostQuery } from '@/gql/graphql';
@@ -59,7 +59,7 @@ const formattedDate = computed(() => {
         <CommentCard
           v-for="(comment, id) in post.comments"
           :key="id"
-          :comment="comment"
+          :comment="comment.content || ''"
         />
       </div>
     </section>

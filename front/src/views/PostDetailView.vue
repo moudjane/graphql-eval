@@ -18,7 +18,10 @@ const GET_POST = graphql(`
       authorId
       authorName
       content
-      comments
+      comments{
+        content
+        id
+      }
       likes
     }
   }

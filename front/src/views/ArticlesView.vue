@@ -29,7 +29,6 @@ const GET_POSTS = graphql(`
       authorId
       authorName
       content
-      comments
       likes
     }
   }

@@ -5,7 +5,6 @@ import type { FilterType } from '../types/filter'
 
 export const postService = {
   async getAllPosts(filter: FilterType = 'date'): Promise<Post[]> {
-    // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 300))
     
     const sortedPosts = [...posts].sort((a, b) => {
@@ -21,6 +20,26 @@ export const postService = {
   async getPostById(id: string): Promise<Post | undefined> {
     await new Promise(resolve => setTimeout(resolve, 300))
     return posts.find(post => post.id === id)
+  },
+
+  async createPost(title: string, content: string): Promise<Post> {
+    await new Promise(resolve => setTimeout(resolve, 300))
+    
+    const newPost: Post = {
+      id: `post${Date.now()}`,
+      title,
+      content,
+      author: {
+        id: 'current-user',
+        username: 'Vous'
+      },
+      score: 0,
+      createdAt: new Date().toISOString(),
+      comments: []
+    }
+    
+    posts.unshift(newPost)
+    return newPost
   },
 
   async upvotePost(id: string): Promise<void> {

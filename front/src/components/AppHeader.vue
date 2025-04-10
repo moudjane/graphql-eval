@@ -40,6 +40,15 @@ const user = computed(() => authStore.user)
               Articles
             </router-link>
           </li>
+          <li>
+            <router-link 
+              to="/articles/new" 
+              class="font-bold text-gray-900 hover:text-hn-orange"
+              :class="{ 'text-hn-orange': route.name === 'create-post' }"
+            >
+              Créer un article
+            </router-link>
+          </li>
         </ul>
       </nav>
       
@@ -56,13 +65,14 @@ const user = computed(() => authStore.user)
               </router-link>
             </li>
             <li>
-              <router-link 
-                to="/register" 
-                class="border-2 border-gray-900 bg-hn-orange px-4 py-2 font-bold text-white hover:bg-orange-500"
-              >
-                S'inscrire
-              </router-link>
-            </li>
+            <router-link 
+              to="/register" 
+              class="font-bold text-gray-900 hover:text-hn-orange"
+              :class="{ 'text-hn-orange': route.name === 'register' }"
+            >
+              S'inscrire
+            </router-link>
+          </li>
           </template>
           <template v-else>
             <li>

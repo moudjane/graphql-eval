@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMutation } from '@vue/apollo-composable'
-import { graphql } from '../gql/gql'
+import { graphql } from '@/gql/gql'
 import { useAuthStore } from '@/stores/authStore'
 
 const router = useRouter()
@@ -40,7 +40,7 @@ const handleSubmit = async () => {
       }
     })
 
-    if (!response || !response.data || !response.data.login.token) {
+    if (!response || !response.data?.login?.token) {
       error.value = 'La réponse du serveur est invalide'
       return
     }
@@ -66,35 +66,17 @@ const handleSubmit = async () => {
         <form @submit.prevent="handleSubmit" class="space-y-4">
           <div>
             <label for="email" class="block font-bold">Email</label>
-            <input
-              id="email"
-              type="email"
-              v-model="email"
-              required
-              class="w-full border-2 border-gray-900 p-2 font-mono"
-            />
+            <input id="email" type="email" v-model="email" required class="w-full border-2 border-gray-900 p-2 font-mono" />
           </div>
           <div>
             <label for="password" class="block font-bold">Mot de passe</label>
-            <input
-              id="password"
-              type="password"
-              v-model="password"
-              required
-              class="w-full border-2 border-gray-900 p-2 font-mono"
-            />
+            <input id="password" type="password" v-model="password" required class="w-full border-2 border-gray-900 p-2 font-mono" />
           </div>
           <p v-if="error" class="text-red-500">{{ error }}</p>
-          <button
-            type="submit"
-            class="border-2 border-gray-900 bg-hn-orange px-6 py-2 font-bold text-white hover:bg-orange-500"
-          >
+          <button type="submit" class="border-2 border-gray-900 bg-hn-orange px-6 py-2 font-bold text-white hover:bg-orange-500">
             Se connecter
           </button>
-          <router-link
-            to="/register"
-            class="text-gray-600 hover:text-hn-orange hover:underline"
-          >
+          <router-link to="/register" class="text-gray-600 hover:text-hn-orange hover:underline">
             Pas de compte ? Inscrivez-vous
           </router-link>
         </form>

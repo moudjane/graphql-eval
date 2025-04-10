@@ -14,7 +14,7 @@ const emits = defineEmits<{
 }>()
 
 const formattedDate = computed(() => {
-  return new Date(props.post.createdAt).toLocaleDateString('fr-FR', {
+  return new Date(props.post.createdAt || '').toLocaleDateString('fr-FR', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
@@ -36,7 +36,7 @@ const handleTitleClick = () => {
         {{ post.title }}
       </h2>
       <div class="text-sm text-gray-600">
-        posté par {{ post.authorId }} le {{ formattedDate }}
+        posté par {{ post.authorName }} le {{ formattedDate }}
       </div>
     </header>
 
@@ -44,7 +44,7 @@ const handleTitleClick = () => {
       <div class="flex items-center gap-4">
         <span class="text-lg font-bold">{{ post.likes }}</span>
         <button 
-          @click="emits('upvote', post.id)"
+          @click="post.id ? emits('upvote', post.id) : console.error('No post ID given')"
           class="border-2 border-gray-900 bg-hn-orange px-4 py-2 font-bold text-white hover:bg-orange-500"
         >
           Upvote
@@ -52,7 +52,7 @@ const handleTitleClick = () => {
       </div>
       
       <button 
-        @click="emits('viewDetails', post.id)"
+        @click="post.id ? emits('viewDetails', post.id) : console.error('No post ID given')"
         class="border-2 border-gray-900 bg-gray-900 px-6 py-2 font-bold text-white hover:bg-gray-800"
       >
         Voir plus →

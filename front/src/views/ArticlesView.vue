@@ -26,6 +26,7 @@ const GET_POSTS = graphql(`
       title
       createdAt
       authorId
+      authorName
       content
       comments
       likes
@@ -86,8 +87,8 @@ const handleViewDetails = (postId: string) => {
       
       <div class="space-y-6">
         <PostCard
-          v-for="post in posts"
-          :key="post.id"
+          v-for="(post, id) in posts"
+          :key="id"
           :post="post"
           @upvote="handleUpvote"
           @view-details="handleViewDetails"

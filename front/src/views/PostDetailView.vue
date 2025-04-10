@@ -16,6 +16,7 @@ const GET_POST = graphql(`
       title
       createdAt
       authorId
+      authorName
       content
       comments
       likes
@@ -59,7 +60,9 @@ const handleUpvote = async (postId: string) => {
 }
 
 const handleAddComment = async (content: string) => {
-  if (!post.value) return
+  console.log('Adding comment:', content)
+  if (!post.value || !post.value.id) return
+  console.log('Adding comment:', content, post.value.id)
   await addCommentMutation({
     postId: post.value.id,
     content

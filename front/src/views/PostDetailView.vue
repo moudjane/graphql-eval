@@ -64,9 +64,8 @@ const handleUpvote = async (postId: string) => {
 }
 
 const handleAddComment = async (content: string) => {
-  console.log('Adding comment:', content)
   if (!post.value || !post.value.id) return
-  console.log('Adding comment:', content, post.value.id)
+
   await addCommentMutation({
     postId: post.value.id,
     content

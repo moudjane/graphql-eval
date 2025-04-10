@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, watchEffect } from 'vue'
 import PostDetail from '../components/PostDetail.vue'
 import { useRoute } from 'vue-router'
 import { graphql } from '../gql/gql'
@@ -49,9 +49,10 @@ const { mutate: likePost } = useMutation(LIKE_POST, {
 const { mutate: addCommentMutation } = useMutation(ADD_COMMENT)
 
 const post = ref<GetPostQuery['getPost'] | null>(null)
-
-watch(result, (newResult) => {
-  post.value = newResult?.getPost ?? null
+watchEffect(() => {
+  if (result.value) {
+    post.value = result.value.getPost ?? null
+  }
 })
 
 const handleUpvote = async (postId: string) => {

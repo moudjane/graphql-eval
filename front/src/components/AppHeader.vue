@@ -23,56 +23,41 @@ const user = computed(() => authStore.user)
       <nav>
         <ul class="flex items-center gap-6">
           <li>
-            <router-link 
-              to="/" 
-              class="font-bold text-gray-900 hover:text-hn-orange"
-              :class="{ 'text-hn-orange': route.name === 'home' }"
-            >
+            <router-link to="/" class="font-bold text-gray-900 hover:text-hn-orange"
+              :class="{ 'text-hn-orange': route.name === 'home' }">
               Accueil
             </router-link>
           </li>
           <li>
-            <router-link 
-              to="/articles" 
-              class="font-bold text-gray-900 hover:text-hn-orange"
-              :class="{ 'text-hn-orange': route.name === 'articles' }"
-            >
+            <router-link to="/articles" class="font-bold text-gray-900 hover:text-hn-orange"
+              :class="{ 'text-hn-orange': route.name === 'articles' }">
               Articles
             </router-link>
           </li>
-          <li>
-            <router-link 
-              to="/articles/new" 
-              class="font-bold text-gray-900 hover:text-hn-orange"
-              :class="{ 'text-hn-orange': route.name === 'create-post' }"
-            >
-              Créer un article
+          <li v-if="authStore.user">
+            <router-link to="/articles/new" class="font-bold text-gray-900 hover:text-hn-orange"
+              :class="{ 'text-hn-orange': route.name === 'new-article' }">
+              Nouvel article
             </router-link>
           </li>
         </ul>
       </nav>
-      
+
       <nav>
         <ul class="flex items-center gap-4">
           <template v-if="!isAuthenticated">
             <li>
-              <router-link 
-                to="/login" 
-                class="font-bold text-gray-900 hover:text-hn-orange"
-                :class="{ 'text-hn-orange': route.name === 'login' }"
-              >
+              <router-link to="/login" class="font-bold text-gray-900 hover:text-hn-orange"
+                :class="{ 'text-hn-orange': route.name === 'login' }">
                 Connexion
               </router-link>
             </li>
             <li>
-            <router-link 
-              to="/register" 
-              class="font-bold text-gray-900 hover:text-hn-orange"
-              :class="{ 'text-hn-orange': route.name === 'register' }"
-            >
-              S'inscrire
-            </router-link>
-          </li>
+              <router-link to="/register" class="font-bold text-gray-900 hover:text-hn-orange"
+                :class="{ 'text-hn-orange': route.name === 'register' }">
+                S'inscrire
+              </router-link>
+            </li>
           </template>
           <template v-else>
             <li>

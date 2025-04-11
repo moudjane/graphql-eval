@@ -116,6 +116,8 @@ export const Mutation: MutationResolvers = {
     if (post.authorId !== user.id)
       throw new GraphQLError('Not authorized')
 
+    await prisma.comment.deleteMany({ where: { postId: id } })
+
     await prisma.post.delete({ where: { id } })
     return true
   },

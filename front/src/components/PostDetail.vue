@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const emits = defineEmits<{
   (e: 'upvote', postId: string): void
-  (e: 'upvoteComment', commentId: string): void
+  (e: 'removeUpvote', postId: string): void
   (e: 'addComment', content: string): void
 }>()
 
@@ -20,6 +20,11 @@ const formattedDate = computed(() => {
     month: 'long',
     year: 'numeric'
   })
+})
+
+const isPostLiked = computed(() => {
+  const likedPost = JSON.parse(localStorage.getItem('postLikedId') || '[]')
+  return likedPost.includes(props.post.id)
 })
 </script>
 
@@ -39,13 +44,20 @@ const formattedDate = computed(() => {
       </div>
 
       <div class="flex items-center bg-gray-50 p-4">
-        <div class="flex items-center gap-4">
           <span class="text-lg font-bold">{{ post.likes }}</span>
           <button 
+            v-if="!isPostLiked"
             @click="post.id ? emits('upvote', post.id) : console.error('No post ID given')"
             class="border-2 border-gray-900 bg-hn-orange px-4 py-2 font-bold text-white hover:bg-orange-500"
           >
             Upvote
+          </button>
+          <button 
+            v-else
+            @click="post.id ? emits('removeUpvote', post.id) : console.error('No post ID given')"
+            class="border-2 border-gray-900 bg-white px-4 py-2 font-bold hover:bg-gray-100"
+          >
+            Upvoted
           </button>
         </div>
       </div>

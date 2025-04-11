@@ -38,6 +38,11 @@ const ADD_COMMENT = graphql(`
     }
   }
 `)
+const UNLIKE_POST = graphql(`
+  mutation UnlikePost($postId: ID!) {
+    unlikePost(postId: $postId)
+  }
+`)
 
 const { result, loading, error, refetch } = useQuery<GetPostQuery, GetPostQueryVariables>(
   GET_POST,
@@ -45,6 +50,11 @@ const { result, loading, error, refetch } = useQuery<GetPostQuery, GetPostQueryV
 )
 
 const { mutate: likePost } = useMutation(LIKE_POST, {
+  variables: {
+    postId
+  }
+})
+const { mutate: unlikePost } = useMutation(UNLIKE_POST, {
   variables: {
     postId
   }
@@ -60,6 +70,17 @@ watchEffect(() => {
 
 const handleUpvote = async (postId: string) => {
   await likePost({ postId })
+  const likedPost = JSON.parse(localStorage.getItem('postLikedId') || '[]')
+  console.log('likedPost', [...likedPost, postId])
+  localStorage.setItem('postLikedId', JSON.stringify([...likedPost, postId]))
+  await refetch()
+}
+
+const handleRemoveUpvote = async (postId: string) => {
+  await unlikePost({ postId })
+  const likedPost = JSON.parse(localStorage.getItem('postLikedId') || '[]')
+  const updatedLikedPost = likedPost.filter((id: string) => id !== postId)
+  localStorage.setItem('postLikedId', JSON.stringify(updatedLikedPost))
   await refetch()
 }
 
@@ -84,6 +105,7 @@ onMounted(refetch)
         :post="post"
         @upvote="handleUpvote"
         @add-comment="handleAddComment"
+        @remove-upvote="handleRemoveUpvote"
       />
     </div>
   </main>

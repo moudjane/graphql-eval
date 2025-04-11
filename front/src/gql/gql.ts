@@ -24,6 +24,7 @@ type Documents = {
     "\n  mutation DeletePost($postId: ID!) {\n    deletePost(id: $postId)\n  }\n": typeof types.DeletePostDocument,
     "\n  query GetPost($id: ID!) {\n    getPost(id: $id) {\n      id\n      title\n      createdAt\n      authorId\n      authorName\n      content\n      comments{\n        content\n        id\n      }\n      likes\n    }\n  }\n": typeof types.GetPostDocument,
     "\n  mutation AddComment($postId: ID!, $content: String!) {\n    addComment(postId: $postId, content: $content) {\n      id\n    }\n  }\n": typeof types.AddCommentDocument,
+    "\n  mutation UnlikePost($postId: ID!) {\n    unlikePost(postId: $postId)\n  }\n": typeof types.UnlikePostDocument,
     "\n  mutation Register($input: AuthInput!) {\n    register(input: $input) {\n      token\n      user {\n        id\n        username\n        email\n        posts\n        comments\n        createdAt\n      }\n    }\n  }\n": typeof types.RegisterDocument,
 };
 const documents: Documents = {
@@ -37,6 +38,7 @@ const documents: Documents = {
     "\n  mutation DeletePost($postId: ID!) {\n    deletePost(id: $postId)\n  }\n": types.DeletePostDocument,
     "\n  query GetPost($id: ID!) {\n    getPost(id: $id) {\n      id\n      title\n      createdAt\n      authorId\n      authorName\n      content\n      comments{\n        content\n        id\n      }\n      likes\n    }\n  }\n": types.GetPostDocument,
     "\n  mutation AddComment($postId: ID!, $content: String!) {\n    addComment(postId: $postId, content: $content) {\n      id\n    }\n  }\n": types.AddCommentDocument,
+    "\n  mutation UnlikePost($postId: ID!) {\n    unlikePost(postId: $postId)\n  }\n": types.UnlikePostDocument,
     "\n  mutation Register($input: AuthInput!) {\n    register(input: $input) {\n      token\n      user {\n        id\n        username\n        email\n        posts\n        comments\n        createdAt\n      }\n    }\n  }\n": types.RegisterDocument,
 };
 
@@ -94,6 +96,10 @@ export function graphql(source: "\n  query GetPost($id: ID!) {\n    getPost(id: 
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation AddComment($postId: ID!, $content: String!) {\n    addComment(postId: $postId, content: $content) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation AddComment($postId: ID!, $content: String!) {\n    addComment(postId: $postId, content: $content) {\n      id\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation UnlikePost($postId: ID!) {\n    unlikePost(postId: $postId)\n  }\n"): (typeof documents)["\n  mutation UnlikePost($postId: ID!) {\n    unlikePost(postId: $postId)\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

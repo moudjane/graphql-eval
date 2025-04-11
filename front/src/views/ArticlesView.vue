@@ -12,14 +12,6 @@ type FilterType = 'CREATED_AT' | 'LIKES'
 const router = useRouter()
 const activeFilter = ref<FilterType>('CREATED_AT')
 
-const ME = graphql(`
-  query Me {
-    me {
-      id
-      username
-    }
-  }
-`)
 const GET_POSTS = graphql(`
   query GetPosts($filter: PostFilterInput) {
     getPosts(filter: $filter) {

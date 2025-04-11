@@ -71,7 +71,6 @@ watchEffect(() => {
 const handleUpvote = async (postId: string) => {
   await likePost({ postId })
   const likedPost = JSON.parse(localStorage.getItem('postLikedId') || '[]')
-  console.log('likedPost', [...likedPost, postId])
   localStorage.setItem('postLikedId', JSON.stringify([...likedPost, postId]))
   await refetch()
 }

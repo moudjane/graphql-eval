@@ -105,3 +105,12 @@ client/
 - `graphql-codegen` for types and hooks
 - Basic responsive design and accessibility
 - Clean and maintainable code
+
+---
+
+## Features we want to fix or upgrade
+- Move likedPostId to backend and add it into our database
+- Move graphql requests in a dedicated service to avoid duplicates
+- graphql function getUserPosts is currently filtering on authorName instead of authorId
+- Add a function getUserById in backend
+- Fix FilterBar

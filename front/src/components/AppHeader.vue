@@ -12,6 +12,7 @@ const user = computed(() => authStore.user)
 
 const handleLogout = () => {
   authStore.clearAuth()
+  localStorage.removeItem('likedPostId')
   router.push('/login')
 }
 </script>

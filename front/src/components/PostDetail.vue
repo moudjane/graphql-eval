@@ -59,7 +59,6 @@ const isPostLiked = computed(() => {
           >
             Upvoted
           </button>
-        </div>
       </div>
     </div>
 
